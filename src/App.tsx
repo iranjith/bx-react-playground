@@ -5,6 +5,8 @@ import './App.css'
 import MuiTabs from './components/Tabs'
 import CustomizedTabs from './components/Tabs'
 import UnstyledTabsIntroduction from './components/UnstyleTabs'
+import DynamicForm from './components/FormBuilder'
+import DynamicAutoComplete from './components/DynamicSelect'
 
 function App() {
   const tabs = [
@@ -15,7 +17,8 @@ function App() {
 
   return (
     <>
-      <CustomizedTabs />
+      {/* <DynamicForm/> */}
+      <DynamicAutoComplete/>
       {/* <UnstyledTabsIntroduction /> */}
     </>
   )

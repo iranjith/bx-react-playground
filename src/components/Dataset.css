@@ -1,0 +1,34 @@
+.dictionaries-group{
+    margin-top: 32px;
+    padding:10px;
+    border:5rem;
+
+    .grid-container{
+        &MuiGrid-root {
+            >MuiGrid-root.MuiGrid-item{
+                display: flex;
+
+                &.grid-actions{
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}
+
+.dataset-group{
+    color:black;
+    font-size:3rem;
+    
+    .grid-container{
+        &MuiGrid-root {
+            >MuiGrid-root.MuiGrid-item{
+                display: flex;
+
+                &.grid-actions{
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}
