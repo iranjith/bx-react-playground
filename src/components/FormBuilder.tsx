@@ -1,15 +1,15 @@
 // src/components/FormBuilder.tsx
 import React, { useState } from 'react';
-import { CollateralQuality } from '../types';
+import { ThemeProvider, createTheme, CssBaseline, Container, Typography } from '@mui/material';
 import CollateralQualityForm from './CollateralQuality';
 
-const initialData: CollateralQuality = {
+const initialData = {
   data: '',
   description: 'description not provided',
   field: '',
   filter: null,
   group_by: '',
-  id: '',
+  id: null,
   threshold: 0,
   threshold_direction: '>=',
   weight: '',
@@ -17,20 +17,35 @@ const initialData: CollateralQuality = {
   template: 'CollateralQuality'
 };
 
-const FormBuilder: React.FC = () => {
-  const [data, setData] = useState<CollateralQuality>(initialData);
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
-  const handleFormSubmit = (formData: CollateralQuality) => {
+const FormBuilder: React.FC = () => {
+  const [data, setData] = useState(initialData);
+
+  const handleFormSubmit = (formData: any) => {
     setData(formData);
     console.log("Form Submitted:", formData);
   };
 
   return (
-    <div>
-      <h1>Form Builder</h1>
-      <CollateralQualityForm data={data} onSubmit={handleFormSubmit} />
-      {/* Render other form templates similarly */}
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Typography variant="h4" component="h1" gutterBottom>
+          Form Builder
+        </Typography>
+        <CollateralQualityForm data={data} onSubmit={handleFormSubmit} />
+      </Container>
+    </ThemeProvider>
   );
 };
 
