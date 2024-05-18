@@ -1,103 +1,37 @@
-import React from 'react';
-import Form, { UiSchema } from '@rjsf/core';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Container from '@mui/material/Container';
+// src/components/FormBuilder.tsx
+import React, { useState } from 'react';
+import { CollateralQuality } from '../types';
+import CollateralQualityForm from './CollateralQuality';
 
-const schema = {
-  type: 'object',
-  title: 'Order',
-  required: ['customer', 'items'],
-  properties: {
-    customer: {
-      type: 'object',
-      title: 'Customer',
-      required: ['name', 'email'],
-      properties: {
-        name: {
-          type: 'string',
-          title: 'Name',
-        },
-        email: {
-          type: 'string',
-          title: 'Email',
-          format: 'email',
-        },
-      },
-    },
-    items: {
-      type: 'array',
-      title: 'Items',
-      items: {
-        type: 'object',
-        title: 'Item',
-        required: ['name', 'quantity', 'price'],
-        properties: {
-          name: {
-            type: 'string',
-            title: 'Name',
-          },
-          quantity: {
-            type: 'integer',
-            title: 'Quantity',
-            minimum: 1,
-          },
-          price: {
-            type: 'number',
-            title: 'Price',
-            minimum: 0,
-          },
-        },
-      },
-    },
-    shippingAddress: {
-      type: 'object',
-      title: 'Shipping Address',
-      properties: {
-        street: {
-          type: 'string',
-          title: 'Street Address',
-        },
-        city: {
-          type: 'string',
-          title: 'City',
-        },
-        zipCode: {
-          type: 'string',
-          title: 'Zip Code',
-        },
-      },
-    },
-  },
+const initialData: CollateralQuality = {
+  data: '',
+  description: 'description not provided',
+  field: '',
+  filter: null,
+  group_by: '',
+  id: '',
+  threshold: 0,
+  threshold_direction: '>=',
+  weight: '',
+  weighted_average: null,
+  template: 'CollateralQuality'
 };
 
-const uiSchema: UiSchema = {
-  items: {
-    items: {
-      classNames: 'item',
-    },
-  },
-};
+const FormBuilder: React.FC = () => {
+  const [data, setData] = useState<CollateralQuality>(initialData);
 
-const validate = (formData: any, errors: any) => {
-    // Implement your validation logic here
-    return errors;
-  };
-  
-
-const theme = createTheme();
-
-const DynamicForm: React.FC = () => {
-  const handleSubmit = (formData: any) => {
-    console.log('Form submitted:', formData);
+  const handleFormSubmit = (formData: CollateralQuality) => {
+    setData(formData);
+    console.log("Form Submitted:", formData);
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <Form schema={schema} uiSchema={uiSchema} validator={validate} onSubmit={handleSubmit} />
-      </Container>
-    </ThemeProvider>
+    <div>
+      <h1>Form Builder</h1>
+      <CollateralQualityForm data={data} onSubmit={handleFormSubmit} />
+      {/* Render other form templates similarly */}
+    </div>
   );
 };
 
-export default DynamicForm;
+export default FormBuilder;
