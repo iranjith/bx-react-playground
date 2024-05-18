@@ -1,81 +1,146 @@
 export const collateralQualitySchema = {
-    title: "Collateral Quality",
-    type: "object",
-    properties: {
-      data: {
-        type: "string",
-        title: "Data",
-        default: ""
-      },
-      description: {
-        type: "string",
-        title: "Description",
-        default: "description not provided"
-      },
-      field: {
-        type: "string",
-        title: "Field",
-        default: ""
-      },
-      filter: {
-        anyOf: [
-          { $ref: "#/definitions/KrakenType" },
-          { type: "null" }
+    "$defs": {
+      "KrakenType": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Rule"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/KrakenType"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "array"
+          }
         ],
-        title: "Filter",
-        default: ""
+        "default": "",
+        "title": "KrakenType"
       },
-      group_by: {
-        type: "string",
-        title: "Group By",
-        default: ""
-      },
-      id: {
-        type: "string",
-        title: "Id",
-        default: null
-      },
-      threshold: {
-        type: "number",
-        title: "Threshold",
-        default: 0
-      },
-      threshold_direction: {
-        type: "string",
-        title: "Threshold Direction",
-        default: ">="
-      },
-      weight: {
-        type: "string",
-        title: "Weight",
-        default: ""
-      },
-      weighted_average: {
-        anyOf: [
-          { $ref: "#/definitions/KrakenType" },
-          { type: "null" }
+      "Rule": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Template"
+          }
         ],
-        title: "Weighted Average",
-        default: null
+        "title": "Rule"
       },
-      template: {
-        type: "string",
-        title: "Template",
-        default: "CollateralQuality"
+      "Template": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/Template - CollateralQuality"
+          }
+        ],
+        "title": "Template"
+      },
+      "Template - CollateralQuality": {
+        "properties": {
+          "data": {
+            "default": "",
+            "description": "The iterable",
+            "title": "Data",
+            "type": "string"
+          },
+          "description": {
+            "default": "description not provided",
+            "description": "Description of the rule. Should be a copy of the IMA",
+            "title": "Description",
+            "type": "string"
+          },
+          "field": {
+            "default": "",
+            "description": "The data field name in each item of data to be used to calculated the weighted average",
+            "title": "Field",
+            "type": "string"
+          },
+          "filter": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/KrakenType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "",
+            "description": "The filter on the iterables, which will decide the scope of weighted average",
+            "title": "Filter"
+          },
+          "group_by": {
+            "default": "",
+            "description": "The grouping by field",
+            "title": "Group By",
+            "type": "string"
+          },
+          "id": {
+            "default": null,
+            "title": "Id",
+            "type": "string"
+          },
+          "threshold": {
+            "default": 0,
+            "description": "The threshold value in percent, e.g put 10 for 10%",
+            "title": "Threshold",
+            "type": "number"
+          },
+          "threshold_direction": {
+            "default": ">=",
+            "description": "The threshold direction e.g greater than or equal to '>='",
+            "title": "Threshold Direction",
+            "type": "string"
+          },
+          "weight": {
+            "default": "",
+            "description": "The data field name in each item of data to be used a weight",
+            "title": "Weight",
+            "type": "string"
+          },
+          "weighted_average": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/KrakenType"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Expecting weighted average",
+            "title": "Weighted Average"
+          },
+          "template": {
+            "const": "CollateralQuality",
+            "default": "CollateralQuality",
+            "title": "Template",
+            "type": "string"
+          }
+        },
+        "title": "Collateral Quality",
+        "type": "object",
+        "description": "assuming an input of a list of assets, will calculate the weighted average by provided parameters"
       }
     },
-    definitions: {
-      KrakenType: {
-        anyOf: [
-          { type: "integer" },
-          { type: "number" },
-          { type: "boolean" },
-          { type: "string" },
-          { type: "array", items: { anyOf: [{ $ref: "#/definitions/KrakenType" }, { type: "null" }] } }
-        ],
-        title: "KrakenType",
-        default: ""
+    "allOf": [
+      {
+        "$ref": "#/$defs/Rule"
       }
-    }
+    ]
   };
   
